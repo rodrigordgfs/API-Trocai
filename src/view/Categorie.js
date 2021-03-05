@@ -9,6 +9,10 @@ module.exports = {
             include: {
                 association: "subcategorie",
                 attributes: ["id", "name"],
+                include: {
+                    association: "subcategorieimage",
+                    attributes: ['sm', 'md', 'lg', 'xl']
+                }
             },
         });
         return data;
@@ -20,6 +24,10 @@ module.exports = {
             include: {
                 association: "subcategorie",
                 attributes: ["id", "name"],
+                include: {
+                    association: "subcategorieimage",
+                    attributes: ['sm', 'md', 'lg', 'xl']
+                }
             }
         });
         if (!result) {

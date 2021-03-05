@@ -1,0 +1,7 @@
+npm sequelize db:create => criar a database
+
+npx sequelize migration:create --name=create-users => criar uma nova migration
+
+npx sequelize db:migrate => execute as migrations
+
+npx sequelize db:migrate:undo => desfaz o ultimo migrate

@@ -17,7 +17,11 @@ module.exports = {
 
     async getAll() {
         const data = await SubCategorie.findAll({
-            attributes: ['id', 'name']
+            attributes: ['id', 'name'],
+            include: {
+                association: "subcategorieimage",
+                attributes: ['sm', 'md', 'lg', 'xl']
+            }
         });
         return data
     },

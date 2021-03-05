@@ -20,6 +20,10 @@ class SubCategorie extends Model {
             foreignKey: "categorie_id",
             as: "categorie",
         });
+        this.hasOne(models.SubCategorieImage, {
+            foreignKey: "subcategorie_id",
+            as: "subcategorieimage",
+        });
     }
 }
 
