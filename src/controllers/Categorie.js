@@ -14,7 +14,7 @@ function validateFields(data) {
     })
 }
 
-exports.get = async (req, res, next) => {
+exports.getAll = async (req, res, next) => {
     try {
         const data = await CategorieRepositorie.get()
         res.status(200).send(data)

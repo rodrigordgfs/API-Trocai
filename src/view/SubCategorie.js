@@ -20,6 +20,10 @@ class SubCategorie {
         }
     }
 
+    async getAll() {
+        return await subcategorie.findAll();
+    }
+
     async post() {
         const data = await subcategorie.post({
             name: this.name,

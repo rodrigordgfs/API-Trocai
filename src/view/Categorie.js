@@ -18,10 +18,6 @@ class Categorie {
         }
     }
 
-    async getAll() {
-        return await categorie.findAll();
-    }
-
     async post() {
         const data = await categorie.post({
             name: this.name,

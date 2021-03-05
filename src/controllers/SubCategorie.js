@@ -1,6 +1,7 @@
 "use strict";
 
 const SubCategorie = require('../view/SubCategorie')
+const SubCategorieRepositorie = require('../repositories/SubCategorie')
 const FieldNotFound = require('../errors/fieldNotFound')
 
 function validateFields(data) {
@@ -11,6 +12,15 @@ function validateFields(data) {
             throw new FieldNotFound(field.name)
         }
     })
+}
+
+exports.getAll = async (req, res, next) => {
+    try {
+        const data = await SubCategorieRepositorie.getAll()
+        res.status(200).send(data)
+    } catch (error) {
+        next(error)
+    }
 }
 
 exports.post = async (req, res, next) => {

@@ -7,6 +7,13 @@ module.exports = {
         return model.create(data);
     },
 
+    async getAll() {
+        const data = await model.findAll({
+            attributes: ['id', 'name']
+        });
+        return data;
+    },
+
     async getAlreadyExists(name) {
         const data = await model.findOne({
             where: {
