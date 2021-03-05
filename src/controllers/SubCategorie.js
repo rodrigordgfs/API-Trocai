@@ -1,7 +1,6 @@
 "use strict";
 
 const SubCategorie = require('../view/SubCategorie')
-const SubCategorieRepositorie = require('../repositories/SubCategorie')
 const FieldNotFound = require('../errors/fieldNotFound')
 
 function validateFields(data) {
@@ -16,8 +15,8 @@ function validateFields(data) {
 
 exports.getAll = async (req, res, next) => {
     try {
-        const data = await SubCategorieRepositorie.getAll()
-        res.status(200).send(data)
+        const result = await SubCategorie.getAll()
+        res.status(200).send(result)
     } catch (error) {
         next(error)
     }
@@ -29,11 +28,9 @@ exports.post = async (req, res, next) => {
         const body = req.body
         validateFields(body)
         const data = Object.assign({}, body, { categorie_id })
-        console.log(data);
-        const subcategorie = new SubCategorie(data)
-        await subcategorie.getAlreadyExists()
-        await subcategorie.post()
-        res.status(201).send(subcategorie)
+        await SubCategorie.getAlreadyExists({ name: data.name })
+        const result = await SubCategorie.post(data)
+        res.status(201).send(result)
     } catch (error) {
         next(error)
     }

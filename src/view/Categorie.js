@@ -1,32 +1,48 @@
 "use strict";
-const categorie = require("../repositories/Categorie");
+const Categorie = require("../models/Categorie");
 const AlreadyExists = require("../errors/alreadyExists");
 
-class Categorie {
-    constructor({ id, name, active, created_at, updated_at }) {
-        this.id = id;
-        this.name = name;
-        this.active = active;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-    }
-
-    async getAlreadyExists() {
-        const data = await categorie.getAlreadyExists(this.name);
-        if (data) {
-            throw new AlreadyExists('Categoria')
-        }
-    }
-
-    async post() {
-        const data = await categorie.post({
-            name: this.name,
-            active: this.active,
+module.exports = {
+    async getAll() {
+        const data = await Categorie.findAll({
+            attributes: ["id", "name"],
+            include: {
+                association: "subcategorie",
+                attributes: ["id", "name"],
+            },
         });
-        this.id = data.id;
-        this.created_at = data.created_at;
-        this.updated_at = data.updated_at;
-    }
-}
+        return data;
+    },
 
-module.exports = Categorie
+    async getByID(id) {
+        const result = await Categorie.findByPk(id, {
+            attributes: ["id", "name", 'active'],
+            include: {
+                association: "subcategorie",
+                attributes: ["id", "name"],
+            }
+        });
+        if (!result) {
+            throw new NotFound("Categorie");
+        } else if (!result.active) {
+            throw new Deactivated("Categorie");
+        }
+        return result
+    },
+
+    async getAlreadyExists(data) {
+        const result = await Categorie.findOne({
+            where: {
+                name: data.name
+            },
+        });
+        if (result) {
+            throw new AlreadyExists("Categoria");
+        }
+    },
+
+    async post(body) {
+        const result = await Categorie.create(body);
+        return result
+    },
+};

@@ -6,6 +6,7 @@ const SubCategorieController = require("./controllers/SubCategorie");
 
 routes.post("/api-trocai/categorie", CategorieController.post);
 routes.get("/api-trocai/categorie", CategorieController.getAll)
+routes.get("/api-trocai/categorie/:categorie_id", CategorieController.getByID)
 
 routes.post("/api-trocai/categorie/:categorie_id/subcategorie", SubCategorieController.post);
 routes.get("/api-trocai/subcategorie", SubCategorieController.getAll);
