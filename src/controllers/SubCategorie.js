@@ -1,7 +1,8 @@
 "use strict";
 
 const SubCategorie = require('../view/SubCategorie')
-const FieldNotFound = require('../errors/fieldNotFound')
+const FieldNotFound = require('../errors/fieldNotFound');
+const NotFound = require('../errors/notFound')
 
 function validateFields(data) {
     const fields = [{ name: 'Name', value: 'name' }]
@@ -11,6 +12,16 @@ function validateFields(data) {
             throw new FieldNotFound(field.name)
         }
     })
+}
+
+exports.getByID = async (req, res, next) => {
+    try {
+        const id = req.params.subcategorie_id
+        const result = await SubCategorie.getByID(id)
+        res.status(200).send(result)
+    } catch (error) {
+        next(error)
+    }
 }
 
 exports.getAll = async (req, res, next) => {
@@ -31,6 +42,20 @@ exports.post = async (req, res, next) => {
         await SubCategorie.getAlreadyExists({ name: data.name })
         const result = await SubCategorie.post(data)
         res.status(201).send(result)
+    } catch (error) {
+        next(error)
+    }
+}
+
+exports.delete = async (req, res, next) => {
+    try {
+        const id = req.params.subcategorie_id
+        const subcategorie = await SubCategorie.getByID(id)
+        if (!subcategorie) {
+            throw new NotFound('SubCategorie')
+        }
+        await SubCategorie.delete(id)
+        res.status(200).end()
     } catch (error) {
         next(error)
     }

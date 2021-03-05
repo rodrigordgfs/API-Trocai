@@ -2,6 +2,8 @@
 
 const SubCategorie = require("../models/SubCategorie");
 const AlreadyExists = require("../errors/alreadyExists");
+const NotFound = require('../errors/notFound')
+const Deactivated = require('../errors/deactivated');
 
 module.exports = {
     async getAlreadyExists(data) {
@@ -15,19 +17,40 @@ module.exports = {
         }
     },
 
+    async getByID(id) {
+        const result = await SubCategorie.findByPk(id, {
+            attributes: ['id', 'name', 'active'],
+            include: {
+                association: "subcategorieimage",
+                attributes: ['sm', 'md', 'lg', 'xl']
+            }
+        })
+        if (!result) {
+            throw new NotFound("SubCategorie");
+        } else if (!result.active) {
+            throw new Deactivated("SubCategorie");
+        }
+        return result
+    },
+
     async getAll() {
-        const data = await SubCategorie.findAll({
-            attributes: ['id', 'name'],
+        const result = await SubCategorie.findAll({
+            attributes: ['id', 'name', 'active'],
             include: {
                 association: "subcategorieimage",
                 attributes: ['sm', 'md', 'lg', 'xl']
             }
         });
-        return data
+        return result
     },
 
     async post(body) {
-        const data = await SubCategorie.create(body);
-        return data
+        return await SubCategorie.create(body);
+    },
+
+    async delete(id) {
+        return await SubCategorie.destroy({
+            where: { id: id }
+        })
     }
 }
