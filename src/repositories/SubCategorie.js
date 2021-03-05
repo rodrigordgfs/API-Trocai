@@ -1,6 +1,6 @@
 "use strict";
 
-const model = require("../models/categorie");
+const model = require("../models/SubCategorie");
 
 module.exports = {
     async post(data) {

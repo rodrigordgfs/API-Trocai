@@ -1,5 +1,7 @@
 "use strict";
-const Categorie = require("../serializers/categorie");
+
+const Categorie = require('../view/Categorie')
+const CategorieRepositorie = require('../repositories/Categorie')
 const FieldNotFound = require('../errors/fieldNotFound')
 
 function validateFields(data) {
@@ -12,15 +14,24 @@ function validateFields(data) {
     })
 }
 
-exports.post = async (req, res, next) => {
+exports.get = async (req, res, next) => {
     try {
-        const body = req.body;
-        validateFields(body)
-        const categorie = new Categorie(body);
-        await categorie.getAlreadyExists()
-        await categorie.post();
-        res.status(201).send(categorie);
+        const data = await CategorieRepositorie.get()
+        res.status(200).send(data)
     } catch (error) {
         next(error)
     }
-};
+}
+
+exports.post = async (req, res, next) => {
+    try {
+        const body = req.body
+        validateFields(body)
+        const categorie = new Categorie(body)
+        await categorie.getAlreadyExists()
+        await categorie.post()
+        res.status(201).send(categorie)
+    } catch (error) {
+        next(error)
+    }
+}

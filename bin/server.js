@@ -4,9 +4,12 @@ const app = require("../src/app");
 const http = require("http");
 const config = require("config");
 const debug = require("debug")("shinodalabs:server");
+const apiConfig = require('../src/config/api')
 
-const port = normalizePort(config.get("api.port") || "3000");
+const port = normalizePort(apiConfig.port || "3000");
 app.set("port", port);
+
+require("../src/database")
 
 const server = http.createServer(app);
 
