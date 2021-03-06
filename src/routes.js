@@ -53,7 +53,11 @@ routes.patch(
   SubCategorieImageController.patch
 );
 
-// PRODUCT COLORS
+// COLORS
 routes.post("/api-trocai/color", ColorController.post);
+routes.get("/api-trocai/color", ColorController.get);
+routes.get("/api-trocai/color/:color_id", ColorController.getByID);
+routes.patch("/api-trocai/color/:color_id", ColorController.patch);
+routes.delete("/api-trocai/color/:color_id", ColorController.delete);
 
 module.exports = routes;
