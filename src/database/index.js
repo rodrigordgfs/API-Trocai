@@ -6,7 +6,7 @@ const connection = new Sequelize(dbConfig);
 const Categorie = require("../models/Categorie");
 const SubCategorie = require("../models/SubCategorie");
 const SubCategorieImage = require("../models/SubCategorieImage");
-const Color = require('../models/Color')
+const Color = require("../models/Color");
 
 Categorie.init(connection);
 SubCategorie.init(connection);

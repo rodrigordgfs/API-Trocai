@@ -10,22 +10,22 @@ const routes = require("./routes");
 const AlreadyExists = require("./errors/alreadyExists");
 const NotFound = require("./errors/notFound");
 const FieldNotFound = require("./errors/fieldNotFound");
-const Deativated = require('./errors/deactivated')
+const Deativated = require("./errors/deactivated");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(routes);
 
 app.use((error, req, res, next) => {
-    if (error instanceof AlreadyExists) {
-        res.status(409).send({ message: error.message });
-    } else if (error instanceof NotFound) {
-        res.status(404).send({ message: error.message });
-    } else if (error instanceof FieldNotFound || error instanceof Deativated) {
-        res.status(400).send({ message: error.message });
-    } else {
-        res.status(400).send({ message: error.message });
-    }
+  if (error instanceof AlreadyExists) {
+    res.status(409).send({ message: error.message });
+  } else if (error instanceof NotFound) {
+    res.status(404).send({ message: error.message });
+  } else if (error instanceof FieldNotFound || error instanceof Deativated) {
+    res.status(400).send({ message: error.message });
+  } else {
+    res.status(400).send({ message: error.message });
+  }
 });
 
 module.exports = app;

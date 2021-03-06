@@ -37,8 +37,8 @@ module.exports = {
     });
     if (!result) {
       throw new NotFound("Categorie");
-    // } else if (!result.active) {
-    //   throw new Deactivated("Categorie");
+      // } else if (!result.active) {
+      //   throw new Deactivated("Categorie");
     }
     return result;
   },
