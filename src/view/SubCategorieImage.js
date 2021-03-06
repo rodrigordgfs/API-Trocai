@@ -11,7 +11,7 @@ module.exports = {
             },
         });
         if (result) {
-            throw new AlreadyExists('SubCategoria Image')
+            throw new AlreadyExists('SubCategorie Image')
         }
     },
 
@@ -26,6 +26,12 @@ module.exports = {
     async post(body) {
         const result = await SubCategorieImage.create(body)
         return result
+    },
+
+    async patch(id, body) {
+        return await SubCategorieImage.update(body, {
+            where: { subcategorie_id: id }
+        })
     },
 
     async delete(id) {

@@ -45,6 +45,21 @@ exports.post = async (req, res, next) => {
     }
 }
 
+exports.patch = async (req, res, next) => {
+    try {
+        const id = req.params.categorie_id
+        const body = req.body
+        const categorie = await Categorie.getByID(id)
+        if (!categorie) {
+            throw new NotFound("Categorie")
+        }
+        await Categorie.patch(id, body)
+        res.status(204).end()
+    } catch (error) {
+        next(error)
+    }
+}
+
 exports.delete = async (req, res, next) => {
     try {
         const id = req.params.categorie_id

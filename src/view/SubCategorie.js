@@ -4,6 +4,7 @@ const SubCategorie = require("../models/SubCategorie");
 const AlreadyExists = require("../errors/alreadyExists");
 const NotFound = require('../errors/notFound')
 const Deactivated = require('../errors/deactivated');
+const { patch } = require("./Categorie");
 
 module.exports = {
     async getAlreadyExists(data) {
@@ -27,8 +28,8 @@ module.exports = {
         })
         if (!result) {
             throw new NotFound("SubCategorie");
-        } else if (!result.active) {
-            throw new Deactivated("SubCategorie");
+        // } else if (!result.active) {
+        //     throw new Deactivated("SubCategorie");
         }
         return result
     },
@@ -48,6 +49,12 @@ module.exports = {
         return await SubCategorie.create(body);
     },
 
+    async patch(id, body) {
+        return await SubCategorie.update(body, {
+            where: { id: id }
+        })
+    },
+ 
     async delete(id) {
         return await SubCategorie.destroy({
             where: { id: id }
