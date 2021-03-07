@@ -5,6 +5,7 @@ const CategorieController = require("./controllers/Categorie");
 const SubCategorieController = require("./controllers/SubCategorie");
 const SubCategorieImageController = require("./controllers/SubCategorieImage");
 const ColorController = require("./controllers/Color");
+const ProductController = require("./controllers/Product");
 
 // CATEGORIES
 routes.post("/api-trocai/categorie", CategorieController.post);
@@ -63,5 +64,8 @@ routes.get("/api-trocai/color", ColorController.get);
 routes.get("/api-trocai/color/:color_id", ColorController.getByID);
 routes.patch("/api-trocai/color/:color_id", ColorController.patch);
 routes.delete("/api-trocai/color/:color_id", ColorController.delete);
+
+// PRODUCTS
+routes.post("/api-trocai/product", ProductController.post);
 
 module.exports = routes;

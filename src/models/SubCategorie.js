@@ -24,6 +24,10 @@ class SubCategorie extends Model {
       foreignKey: "subcategorie_id",
       as: "subcategorieimage",
     });
+    this.hasMany(models.Product, {
+      foreignKey: "product_id",
+      as: "product",
+    });
   }
 }
 

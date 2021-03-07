@@ -15,6 +15,13 @@ class Color extends Model {
       }
     );
   }
+
+  static associate(models) {
+    this.hasMany(models.Product, {
+      foreignKey: "color_id",
+      as: "products",
+    });
+  }
 }
 
 module.exports = Color;
