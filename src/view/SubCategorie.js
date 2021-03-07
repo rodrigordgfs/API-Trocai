@@ -33,6 +33,13 @@ module.exports = {
     return result;
   },
 
+  async getByCategorie(id) {
+    const result = await SubCategorie.findAll({
+      where: { categorie_id: id },
+    });
+    return result;
+  },
+
   async getAll() {
     const result = await SubCategorie.findAll({
       attributes: ["id", "name", "active"],

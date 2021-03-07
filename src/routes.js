@@ -25,6 +25,10 @@ routes.patch(
   "/api-trocai/subcategorie/:subcategorie_id",
   SubCategorieController.patch
 );
+routes.get(
+  "/api-trocai/categorie/:categorie_id/subcategorie",
+  SubCategorieController.getByCategorie
+);
 routes.get("/api-trocai/subcategorie", SubCategorieController.getAll);
 routes.get(
   "/api-trocai/subcategorie/:subcategorie_id",

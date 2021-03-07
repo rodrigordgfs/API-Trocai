@@ -3,6 +3,7 @@
 const SubCategorie = require("../view/SubCategorie");
 const FieldNotFound = require("../errors/fieldNotFound");
 const NotFound = require("../errors/notFound");
+const Categorie = require("../view/Categorie");
 
 function validateFields(data) {
   const fields = [{ name: "Name", value: "name" }];
@@ -27,6 +28,20 @@ exports.getByID = async (req, res, next) => {
 exports.getAll = async (req, res, next) => {
   try {
     const result = await SubCategorie.getAll();
+    res.status(200).send(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getByCategorie = async (req, res, next) => {
+  try {
+    const categorie_id = req.params.categorie_id;
+    const categorie = await Categorie.getByID(categorie_id);
+    if (!categorie) {
+      throw new NotFound("Categorie");
+    }
+    const result = await SubCategorie.getByCategorie(categorie_id);
     res.status(200).send(result);
   } catch (error) {
     next(error);
