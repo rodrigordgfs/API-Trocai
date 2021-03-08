@@ -41,3 +41,13 @@ exports.post = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.getByID = async (req, res, next) => {
+  try {
+    const product_id = req.params.product_id;
+    const result = await Product.getByID(product_id);
+    res.status(200).send(result);
+  } catch (error) {
+    next(error);
+  }
+};

@@ -3,7 +3,6 @@
 const SubCategorie = require("../models/SubCategorie");
 const AlreadyExists = require("../errors/alreadyExists");
 const NotFound = require("../errors/notFound");
-const Deactivated = require("../errors/deactivated");
 
 module.exports = {
   async getAlreadyExists(data) {

@@ -19,9 +19,17 @@ class Product extends Model {
   }
 
   static associate(models) {
-    this.hasOne(models.Color, {
-      foreignKey: "product_id",
+    this.belongsTo(models.Color, {
+      foreignKey: "color_id",
       as: "color",
+    });
+    this.hasOne(models.ProductImage, {
+      foreignKey: "cover_id",
+      as: "cover",
+    });
+    this.hasMany(models.ProductImage, {
+      foreignKey: "product_id",
+      as: "productimage",
     });
     this.belongsTo(models.SubCategorie, {
       foreignKey: "subcategorie_id",

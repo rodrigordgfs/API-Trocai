@@ -2,6 +2,7 @@
 
 const SubCategorieImage = require("../models/SubCategorieImage");
 const AlreadyExists = require("../errors/alreadyExists");
+const NotFound = require("../errors/notFound");
 
 module.exports = {
   async getAlreadyExists(data) {
@@ -20,6 +21,9 @@ module.exports = {
       where: { subcategorie_id: id },
       attributes: ["sm", "md", "lg", "xl"],
     });
+    if (!result) {
+      throw new NotFound("Subcategorie Image");
+    }
     return result;
   },
 

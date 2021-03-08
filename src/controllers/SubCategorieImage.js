@@ -2,35 +2,20 @@
 
 const SubCategorieImage = require("../view/SubCategorieImage");
 const SubCategorie = require("../view/SubCategorie");
-const FieldNotFound = require("../errors/fieldNotFound");
-const NotFound = require("../errors/notFound");
+const ValidateBodyFields = require("../validators/ValidateBodyFields").validate;
 
-function validateFields(data) {
-  const fields = [
-    { name: "SM", value: "sm" },
-    { name: "MD", value: "md" },
-    { name: "LG", value: "lg" },
-    { name: "XL", value: "xl" },
-  ];
-  fields.forEach((field) => {
-    const value = field.value;
-    if (!data[value]) {
-      throw new FieldNotFound(field.name);
-    }
-  });
-}
+const fields = [
+  { name: "SM", value: "sm" },
+  { name: "MD", value: "md" },
+  { name: "LG", value: "lg" },
+  { name: "XL", value: "xl" },
+];
 
 exports.getBySubcategorie = async (req, res, next) => {
   try {
     const id = req.params.subcategorie_id;
-    const subcategorie = await SubCategorie.getByID(id);
-    if (!subcategorie) {
-      throw new NotFound("SubCategorie");
-    }
+    await SubCategorie.getByID(id);
     const subcategorieimage = await SubCategorieImage.getBySubcategorie(id);
-    if (!subcategorieimage) {
-      throw new NotFound("SubCategorieImage");
-    }
     res.status(200).send(subcategorieimage);
   } catch (error) {
     next(error);
@@ -41,7 +26,7 @@ exports.post = async (req, res, next) => {
   try {
     const { subcategorie_id } = req.params;
     const body = req.body;
-    validateFields(body);
+    ValidateBodyFields(body, fields);
     const data = Object.assign({}, body, { subcategorie_id });
     await SubCategorieImage.getAlreadyExists(data.subcategorie_id);
     const result = await SubCategorieImage.post(data);
@@ -55,11 +40,8 @@ exports.patch = async (req, res, next) => {
   try {
     const id = req.params.subcategorie_id;
     const body = req.body;
-    validateFields(body);
-    const subcategorie = await SubCategorie.getByID(id);
-    if (!subcategorie) {
-      throw new NotFound("SubCategorie");
-    }
+    ValidateBodyFields(body, fields);
+    await SubCategorie.getByID(id);
     await SubCategorieImage.patch(id, body);
     res.status(204).end();
   } catch (error) {
@@ -70,10 +52,7 @@ exports.patch = async (req, res, next) => {
 exports.delete = async (req, res, next) => {
   try {
     const id = req.params.subcategorie_id;
-    const subcategorie = await SubCategorie.getByID(id);
-    if (!subcategorie) {
-      throw new NotFound("SubCategorie");
-    }
+    await SubCategorie.getByID(id);
     await SubCategorieImage.delete(id);
     res.status(200).end();
   } catch (error) {

@@ -1,18 +1,9 @@
 "use strict";
 
 const Categorie = require("../view/Categorie");
-const FieldNotFound = require("../errors/fieldNotFound");
-const NotFound = require("../errors/notFound");
+const ValidateBodyFields = require("../validators/ValidateBodyFields").validate;
 
-function validateFields(data) {
-  const fields = [{ name: "Name", value: "name" }];
-  fields.forEach((field) => {
-    const value = field.value;
-    if (!data[value]) {
-      throw new FieldNotFound(field.name);
-    }
-  });
-}
+const fields = [{ name: "Name", value: "name" }];
 
 exports.getAll = async (req, res, next) => {
   try {
@@ -36,7 +27,7 @@ exports.getByID = async (req, res, next) => {
 exports.post = async (req, res, next) => {
   try {
     const body = req.body;
-    validateFields(body);
+    ValidateBodyFields(body, fields);
     await Categorie.getAlreadyExists({ name: body.name });
     const result = await Categorie.post(body);
     res.status(201).send(result);
@@ -49,10 +40,7 @@ exports.patch = async (req, res, next) => {
   try {
     const id = req.params.categorie_id;
     const body = req.body;
-    const categorie = await Categorie.getByID(id);
-    if (!categorie) {
-      throw new NotFound("Categorie");
-    }
+    await Categorie.getByID(id);
     await Categorie.patch(id, body);
     res.status(204).end();
   } catch (error) {
@@ -63,10 +51,7 @@ exports.patch = async (req, res, next) => {
 exports.delete = async (req, res, next) => {
   try {
     const id = req.params.categorie_id;
-    const categorie = await Categorie.getByID(id);
-    if (!categorie) {
-      throw new NotFound("Categorie");
-    }
+    await Categorie.getByID(id);
     await Categorie.delete(id);
     res.status(200).end();
   } catch (error) {
